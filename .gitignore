@@ -1,0 +1,5 @@
+/.vs
+/Grid.Manager/bin
+/Grid.Manager/obj
+/Grid.Worker/obj
+/Grid.Worker/bin

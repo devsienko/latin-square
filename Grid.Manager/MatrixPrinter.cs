@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Grid.Manager
 {
@@ -7,7 +8,17 @@ namespace Grid.Manager
     {
         public static void PreFillMatrix(char[,] matrix, int rowNumber, string data)
         {
-            
+            var matrixSize = (int)Math.Sqrt(matrix.Length);
+            for (var i = 0; i < matrixSize; i++)
+            {
+                if (matrix[rowNumber, i] == ' ')
+                {
+                    matrix[rowNumber, i] = data.First();
+                    data = data.Substring(1);
+                }
+            }
+            if (data.Length != 0)
+                throw new InvalidOperationException("it's impossible!");
         }
 
         public static string GetExistItems(char[,] matrix, int rowNumber)

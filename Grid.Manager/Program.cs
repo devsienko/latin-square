@@ -25,8 +25,13 @@ namespace Grid.Manager
             MatrixHelper.PrintMatrix(gridManager.Init());
             var paramRowNumber = MatrixHelper.FindMostEmptyLine(gridManager.GetMatrix());
             var subset = GetParamSubset(set, MatrixHelper.GetExistItems(gridManager.GetMatrix(), paramRowNumber));
-            MatrixHelper.PreFillMatrix(gridManager.GetMatrix(), -1, subset);
-            Console.WriteLine(subset);
+            MatrixHelper.PreFillMatrix(gridManager.GetMatrix(), paramRowNumber, subset);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            MatrixHelper.PrintMatrix(gridManager.GetMatrix());
+
+            
             //var data = gridManager.GetAsString();
 
             //var worker = new GridWorker(GridWorker.GetMatrix(data));

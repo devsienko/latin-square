@@ -9,7 +9,10 @@ namespace Grid.Worker
     {
         static void Main(string[] args)
         {
-            Work();
+            if (args.Length == 0)
+                throw new InvalidOperationException("args");
+            Work(args[0]);
+            //Work("ba#a ");
 
             //var size = int.Parse(args[0]);
             //var data = args[1];
@@ -23,22 +26,23 @@ namespace Grid.Worker
             //Console.WriteLine(id);
         }
 
-        static void Work()
+        static void Work(string matrixAsOneLineString)
         {
-            var lsPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\ls.txt";
-            while (true)
-            {
-                if (File.Exists(lsPath))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Wait 1 sec.");
-                    Thread.Sleep(1000);
-                }
-            }
-            var lsData = File.ReadAllText(lsPath);
+            //var lsPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\ls.txt";
+            //while (true)
+            //{
+            //    if (File.Exists(lsPath))
+            //    {
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Wait 1 sec.");
+            //        Thread.Sleep(1000);
+            //    }
+            //}
+            //var lsData = File.ReadAllText(lsPath);
+            var lsData = matrixAsOneLineString.Replace('#', '\n');
 
             var worker = new GridWorker(GridWorker.GetMatrix(lsData));
             try

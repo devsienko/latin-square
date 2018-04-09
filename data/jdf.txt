@@ -1,0 +1,18 @@
+job:
+	name: fill-lat-square
+	init:
+		put C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\Grid.Worker\bin\Debug\Grid.Worker.exe Grid.Worker.exe
+	final:
+		get result.dat C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result\output$TASK.txt
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#abc" > result.dat 
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#acb" > result.dat 
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#bac" > result.dat 
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#bca" > result.dat 
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#cab" > result.dat 
+task: 
+	remote: remote: Grid.Worker.exe "a  # ac#cba" > result.dat 

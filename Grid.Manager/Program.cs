@@ -15,7 +15,7 @@ namespace Grid.Manager
             //foreach (var combi in allCombinations)
             //    Console.WriteLine(combi);
 
-            var size = 5;
+            var size = 3;
             if (size > 26)
             {
                 Console.WriteLine("Error! The Latin alphabet contains 26 symbols.");

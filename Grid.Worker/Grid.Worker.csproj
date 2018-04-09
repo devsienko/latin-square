@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Grid.Manager\Grid.Manager.csproj">
+      <Project>{efa21d1c-0a03-43e8-84bc-5912bdca8417}</Project>
+      <Name>Grid.Manager</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

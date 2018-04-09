@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ namespace Grid.Manager
     {
         static void Main(string[] args)
         {
-            //var allCombinations = GetCombinations("abcdefghi".ToList());
+            
             //foreach (var combi in allCombinations)
             //    Console.WriteLine(combi);
 
-            var size = 13;
+            var size = 5;
             if (size > 26)
             {
                 Console.WriteLine("Error! The Latin alphabet contains 26 symbols.");
@@ -22,17 +23,20 @@ namespace Grid.Manager
             }
             var set = GetSet(size);
             var gridManager = new Manager(size, set);
+            Console.WriteLine("Source matrix:");
+            Console.WriteLine();
             MatrixHelper.PrintMatrix(gridManager.Init());
             var paramRowNumber = MatrixHelper.FindMostEmptyLine(gridManager.GetMatrix());
             var subset = GetParamSubset(set, MatrixHelper.GetExistItems(gridManager.GetMatrix(), paramRowNumber));
-            MatrixHelper.PreFillMatrix(gridManager.GetMatrix(), paramRowNumber, subset);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            MatrixHelper.PrintMatrix(gridManager.GetMatrix());
+            var allCombinations = GetCombinations(subset.ToList());
+            var tasksData = new List<string>();
+            for (var i = 0; i < allCombinations.Count; i++)
+            {
+                var matrix = MatrixHelper.PreFillMatrix(gridManager.GetMatrix(), paramRowNumber, allCombinations[i]);
+                tasksData.Add(MatrixHelper.GetAsOneLineString(matrix));
+            }
 
-            
-            //var data = gridManager.GetAsString();
+            CreateJdf(tasksData );
 
             //var worker = new GridWorker(GridWorker.GetMatrix(data));
             //MatrixHelper.PrintMatrix(worker.Calc());
@@ -61,6 +65,85 @@ namespace Grid.Manager
             //    }
 
             //});
+        }
+
+        static void CreateJdf(List<string> tasksData)
+        {
+            var workerPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\Grid.Worker\bin\Debug\Grid.Worker.exe";
+            var jdfPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\jdf.txt";
+            File.Delete(jdfPath);
+            var resultPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result\output$TASK.txt";
+            WriteToJdj("job:\n");
+            WriteToJdj("\tname: fill-lat-square\n");
+            WriteToJdj("\tinit:\n");
+            WriteToJdj("\t\tput " + workerPath + " Grid.Worker.exe\n");
+            WriteToJdj("\tfinal:\n");
+            WriteToJdj("\t\tget result.dat " + resultPath + "\n");
+            foreach(var d in tasksData)
+            {
+                WriteToJdj("task: \n");
+                WriteToJdj("\tremote: remote: Grid.Worker.exe \"" + d + "\" > result.dat \n");
+            }
+        }
+
+        static void WriteToJdj(string data)
+        {
+            var lsPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\jdf.txt";
+            File.AppendAllText(lsPath, data);
+
+        }
+
+        static void Work()
+        {
+            var size = 13;
+            if (size > 26)
+            {
+                Console.WriteLine("Error! The Latin alphabet contains 26 symbols.");
+                return;
+            }
+            var set = GetSet(size);
+            var gridManager = new Manager(size, set);
+            Console.WriteLine("Source matrix:");
+            Console.WriteLine();
+            MatrixHelper.PrintMatrix(gridManager.Init());
+            var paramRowNumber = MatrixHelper.FindMostEmptyLine(gridManager.GetMatrix());
+            var subset = GetParamSubset(set, MatrixHelper.GetExistItems(gridManager.GetMatrix(), paramRowNumber));
+            MatrixHelper.PreFillMatrix(gridManager.GetMatrix(), paramRowNumber, subset);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Pre filled matrix:");
+            Console.WriteLine();
+            MatrixHelper.PrintMatrix(gridManager.GetMatrix());
+
+            var lsPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\ls.txt";
+            File.WriteAllText(lsPath, gridManager.GetAsString());
+
+            WaitResult();
+        }
+
+        private static void WaitResult()
+        {
+            var lsResult = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result.txt";
+            while (true)
+            {
+                if (File.Exists(lsResult))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Waiting of result 2 sec.");
+                    Thread.Sleep(1000);
+                }
+            }
+
+            var lsData = File.ReadAllText(lsResult);
+            var matrix = GridWorker.GetMatrix(lsData);
+
+            Console.WriteLine("");
+            Console.WriteLine("Result");
+            Console.WriteLine("");
+            MatrixHelper.PrintMatrix(matrix);
         }
 
         private static List<string> GetCombinations(IList<Char> chars)

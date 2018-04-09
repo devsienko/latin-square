@@ -11,7 +11,7 @@ namespace Grid.Manager
             var worker = new Process();
             var rootPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\";
             worker.StartInfo.FileName = rootPath + @"Grid.Worker\bin\Debug\Grid.Worker.exe";
-            worker.StartInfo.Arguments = string.Format(@"{0} ""{1}"" {2}", rowData.Length, rowData, index);
+            worker.StartInfo.Arguments = string.Format(@"{0} ""{1}""", rowData.Length, rowData);
             worker.StartInfo.UseShellExecute = false;
             worker.StartInfo.RedirectStandardOutput = true;
             worker.Start();

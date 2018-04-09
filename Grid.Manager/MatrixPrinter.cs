@@ -6,19 +6,21 @@ namespace Grid.Manager
 {
     public class MatrixHelper
     {
-        public static void PreFillMatrix(char[,] matrix, int rowNumber, string data)
+        public static char[,] PreFillMatrix(char[,] matrix, int rowNumber, string data)
         {
-            var matrixSize = (int)Math.Sqrt(matrix.Length);
+            var result = (char[,])matrix.Clone();
+            var matrixSize = (int)Math.Sqrt(result.Length);
             for (var i = 0; i < matrixSize; i++)
             {
-                if (matrix[rowNumber, i] == ' ')
+                if (result[rowNumber, i] == ' ')
                 {
-                    matrix[rowNumber, i] = data.First();
+                    result[rowNumber, i] = data.First();
                     data = data.Substring(1);
                 }
             }
             if (data.Length != 0)
                 throw new InvalidOperationException("it's impossible!");
+            return result;
         }
 
         public static string GetExistItems(char[,] matrix, int rowNumber)
@@ -46,6 +48,36 @@ namespace Grid.Manager
                 }
                 DrawUnderline(matrixSize);
             }
+        }
+
+        public static string GetAsString(char[,] matrix)
+        {
+            var matrixSize = (int)Math.Sqrt(matrix.Length);
+            var lines = new string[matrixSize];
+            for (var i = 0; i < matrixSize; i++)
+            {
+                var stringChars = new List<char>();
+                for (var j = 0; j < matrixSize; j++)
+                    stringChars.Add(matrix[i, j]);
+                lines[i] = new string(stringChars.ToArray());
+            }
+            var result = lines.Aggregate((i, j) => i + "\n" + j);
+            return result;
+        }
+
+        public static string GetAsOneLineString(char[,] matrix)
+        {
+            var matrixSize = (int)Math.Sqrt(matrix.Length);
+            var lines = new string[matrixSize];
+            for (var i = 0; i < matrixSize; i++)
+            {
+                var stringChars = new List<char>();
+                for (var j = 0; j < matrixSize; j++)
+                    stringChars.Add(matrix[i, j]);
+                lines[i] = new string(stringChars.ToArray());
+            }
+            var result = lines.Aggregate((i, j) => i + "#" + j);
+            return result;
         }
 
         public static int FindMostEmptyLine(char[,] matrix)

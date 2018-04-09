@@ -11,10 +11,6 @@ namespace Grid.Manager
     {
         static void Main(string[] args)
         {
-            
-            //foreach (var combi in allCombinations)
-            //    Console.WriteLine(combi);
-
             var size = 3;
             if (size > 26)
             {
@@ -37,6 +33,8 @@ namespace Grid.Manager
             }
 
             CreateJdf(tasksData );
+
+            WaitResult();
 
             //var worker = new GridWorker(GridWorker.GetMatrix(data));
             //MatrixHelper.PrintMatrix(worker.Calc());
@@ -118,15 +116,17 @@ namespace Grid.Manager
             var lsPath = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\ls.txt";
             File.WriteAllText(lsPath, gridManager.GetAsString());
 
-            WaitResult();
+            //WaitResult();
         }
 
         private static void WaitResult()
         {
-            var lsResult = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result.txt";
+            var resultDir = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result";
+            string[] files = null;
             while (true)
             {
-                if (File.Exists(lsResult))
+                files = Directory.GetFiles(resultDir);
+                if (files.Any())
                 {
                     break;
                 }
@@ -136,7 +136,7 @@ namespace Grid.Manager
                     Thread.Sleep(1000);
                 }
             }
-
+            var lsResult = files.First();
             var lsData = File.ReadAllText(lsResult);
             var matrix = GridWorker.GetMatrix(lsData);
 
@@ -144,6 +144,9 @@ namespace Grid.Manager
             Console.WriteLine("Result");
             Console.WriteLine("");
             MatrixHelper.PrintMatrix(matrix);
+            Console.WriteLine("");
+            Console.WriteLine("todo: stop job");
+            Console.WriteLine("");
         }
 
         private static List<string> GetCombinations(IList<Char> chars)

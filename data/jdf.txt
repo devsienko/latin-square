@@ -5,14 +5,14 @@ job:
 	final:
 		get result.dat C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result\output$TASK.txt
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#abc" > result.dat 
+	remote: remote: Grid.Worker.exe "abc#   #   " > result.dat 
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#acb" > result.dat 
+	remote: remote: Grid.Worker.exe "acb#   #   " > result.dat 
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#bac" > result.dat 
+	remote: remote: Grid.Worker.exe "bac#   #   " > result.dat 
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#bca" > result.dat 
+	remote: remote: Grid.Worker.exe "bca#   #   " > result.dat 
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#cab" > result.dat 
+	remote: remote: Grid.Worker.exe "cab#   #   " > result.dat 
 task: 
-	remote: remote: Grid.Worker.exe "a  # ac#cba" > result.dat 
+	remote: remote: Grid.Worker.exe "cba#   #   " > result.dat 

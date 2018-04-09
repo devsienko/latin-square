@@ -50,7 +50,7 @@ namespace Grid.Worker
                 var grid = worker.Calc();
                 MatrixHelper.PrintMatrix(grid);
                 var dataToWrite = MatrixHelper.GetAsString(grid);
-                var lsResult = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\ls.txt";
+                var lsResult = @"C:\Users\daniil_\YandexDisk\Политех\Последняя сессия\Grid\latin-square\data\result\ls.txt";
                 File.WriteAllText(lsResult, dataToWrite);
             }
             catch (InvalidOperationException ex)
